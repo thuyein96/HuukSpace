@@ -1,3 +1,4 @@
+using HuukSpace.Constants;
 using HuukSpace.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -34,12 +35,7 @@ if (!app.Environment.IsDevelopment())
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
-    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
-
-    if(!roleManager.RoleExistsAsync("Admin").Result)
-    {
-        var result = roleManager.CreateAsync(new IdentityRole("Admin")).Result;
-    }
+    RoleSeeder.SeedRolesAsync(services).Wait();
 }
 
 app.UseHttpsRedirection();
